@@ -15,3 +15,12 @@ class SongEntity(Base):
     year = Column(Integer(), nullable=False)
     created_at = Column(DateTime(timezone=True),
                         default=lambda: datetime.now(tz=timezone.utc))
+
+
+class ArtistEntity(Base):
+    __tablename__ = 'artists'
+
+    id = Column(Integer(), primary_key=True)
+    name = Column(String(100), nullable=False)
+    created_at = Column(DateTime(timezone=True),
+                        default=lambda: datetime.now(tz=timezone.utc))

@@ -19,3 +19,16 @@ class Song(BaseModel):
                 "year": 2022
             }
         }
+
+
+class Artist(BaseModel):
+    id: int = None
+    name: str
+    created_at: datetime = None
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "name": "Arctic Monkeys"
+            }
+        }
