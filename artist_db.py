@@ -8,7 +8,7 @@ def create(artist: ArtistEntity) -> ArtistEntity:
     session.add(artist)
     session.commit()
 
-    return ArtistEntity(created_at=artist.created_at, id=artist.id, name=artist.name)
+    return ArtistEntity(created_at=artist.created_at, id=artist.id, name=artist.name, country=artist.country)
 
 
 def query(name_filter: str = "") -> list[ArtistEntity]:

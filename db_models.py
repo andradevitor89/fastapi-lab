@@ -22,5 +22,6 @@ class ArtistEntity(Base):
 
     id = Column(Integer(), primary_key=True)
     name = Column(String(100), nullable=False)
+    country = Column(String(100), nullable=False)
     created_at = Column(DateTime(timezone=True),
                         default=lambda: datetime.now(tz=timezone.utc))

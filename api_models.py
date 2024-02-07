@@ -25,10 +25,12 @@ class Artist(BaseModel):
     id: int = None
     name: str
     created_at: datetime = None
+    country: str
 
     class Config:
         json_schema_extra = {
             "example": {
-                "name": "Arctic Monkeys"
+                "name": "Arctic Monkeys",
+                "country": "UK"
             }
         }

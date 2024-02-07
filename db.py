@@ -12,8 +12,3 @@ url = URL.create(
 
 engine = create_engine(url)
 connection = engine.connect()
-
-
-def healthcheck() -> bool:
-    connection.execute("select * from information_schema.tables;")
-    return True
