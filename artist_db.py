@@ -1,16 +1,13 @@
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import Session
 from db_models import ArtistEntity
-from db import engine
 
 
-def create(artist: ArtistEntity) -> ArtistEntity:
-    session = sessionmaker(bind=engine)()
-    session.add(artist)
-    session.commit()
+def create(db: Session, artist: ArtistEntity,) -> ArtistEntity:
+    db.add(artist)
+    db.commit()
 
     return ArtistEntity(created_at=artist.created_at, id=artist.id, name=artist.name, country=artist.country)
 
 
-def query(name_filter: str = "") -> list[ArtistEntity]:
-    session = sessionmaker(bind=engine)()
-    return session.query(ArtistEntity).filter(ArtistEntity.name.ilike(f"%{name_filter}%")).all()
+def query(db: Session, name_filter: str = "",) -> list[ArtistEntity]:
+    return db.query(ArtistEntity).filter(ArtistEntity.name.ilike(f"%{name_filter}%")).all()

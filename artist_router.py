@@ -1,14 +1,17 @@
 from fastapi import APIRouter
+from fastapi.params import Depends
 from api_models import Artist
 import artist_db
+from db import get_db
 from db_models import ArtistEntity
+from sqlalchemy.orm import Session
 
 api_router = APIRouter(prefix="/artist", tags=["artist"])
 
 
 @api_router.post("")
-def create(artist: Artist) -> Artist:
-    created_artist = artist_db.create(ArtistEntity(
+def create(artist: Artist,  db: Session = Depends(get_db)) -> Artist:
+    created_artist = artist_db.create(db, ArtistEntity(
         name=artist.name,
         country=artist.country
     ))
@@ -22,5 +25,5 @@ def create(artist: Artist) -> Artist:
 
 
 @api_router.get("")
-def query(name_filter: str = "") -> list[Artist]:
-    return artist_db.query(name_filter)
+def query(name_filter: str = "", db: Session = Depends(get_db)) -> list[Artist]:
+    return artist_db.query(db, name_filter)
