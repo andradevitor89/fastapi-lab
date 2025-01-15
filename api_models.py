@@ -5,7 +5,7 @@ from pydantic import BaseModel
 class Song(BaseModel):
     id: int = None
     title: str
-    artist: str
+    artist_id: int
     album: str
     year: int
     created_at: datetime = None
@@ -14,9 +14,9 @@ class Song(BaseModel):
         json_schema_extra = {
             "example": {
                 "title": "The Car",
-                "artist": "Arctic Monkeys",
+                "artist_id": 1,
                 "album": "The Car",
-                "year": 2022
+                "year": 2022,
             }
         }
 

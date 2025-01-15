@@ -1,3 +1,4 @@
+from http import HTTPStatus
 from fastapi import APIRouter
 from fastapi.params import Depends
 from sqlalchemy.orm import Session
@@ -9,22 +10,25 @@ from db_models import SongEntity
 api_router = APIRouter(prefix="/song", tags=["song"])
 
 
-@api_router.post("")
+@api_router.post("", status_code=HTTPStatus.CREATED)
 def create_song(song: Song,  db: Session = Depends(get_db)) -> Song:
-    created_song = songs_db.create_song(db, SongEntity(
-        title=song.title,
-        artist=song.artist,
-        album=song.album,
-        year=song.year,
-    ))
+    created_song = songs_db.create_song(
+        db,
+        SongEntity(
+            title=song.title,
+            artist_id=song.artist_id,
+            album=song.album,
+            year=song.year,
+        ),
+    )
 
     return Song(
         id=created_song.id,
         title=created_song.title,
-        artist=created_song.artist,
+        artist_id=created_song.artist.id,
         album=created_song.album,
         year=created_song.year,
-        created_at=created_song.created_at
+        created_at=created_song.created_at,
     )
 
 
