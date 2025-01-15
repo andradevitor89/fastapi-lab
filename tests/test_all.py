@@ -8,7 +8,7 @@ from main import app
 ROUTER_PATH = "/song"
 
 
-def test_create_and_get_song_should_succeed():
+def test_create_artist_and_song_should_succeed():
     client = TestClient(app)
 
     artists_count_old = len(client.get("/artist").json())
