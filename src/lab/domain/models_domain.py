@@ -28,9 +28,4 @@ class Artist(BaseModel):
     country: str
 
     class Config:
-        json_schema_extra = {
-            "example": {
-                "name": "Arctic Monkeys",
-                "country": "UK"
-            }
-        }
+        json_schema_extra = {"example": {"name": "Arctic Monkeys", "country": "UK"}}

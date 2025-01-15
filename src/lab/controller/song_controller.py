@@ -1,19 +1,18 @@
 from http import HTTPStatus
 from fastapi import APIRouter
 from fastapi.params import Depends
-from sqlalchemy.orm import Session
-from api_models import Song
-from db import get_db
-import songs_db
-from db_models import SongEntity
+from lab.domain.models_domain import Song
+from lab.repository.song_repository import SongRepository, ISongRepository
+from lab.repository.models_repository import SongEntity
 
 api_router = APIRouter(prefix="/song", tags=["song"])
 
 
 @api_router.post("", status_code=HTTPStatus.CREATED)
-def create_song(song: Song,  db: Session = Depends(get_db)) -> Song:
-    created_song = songs_db.create_song(
-        db,
+def create_song(
+    song: Song, repository: ISongRepository = Depends(SongRepository)
+) -> Song:
+    created_song = repository.create(
         SongEntity(
             title=song.title,
             artist_id=song.artist_id,
@@ -33,5 +32,7 @@ def create_song(song: Song,  db: Session = Depends(get_db)) -> Song:
 
 
 @api_router.get("")
-def query_song(name_filter: str = "", db: Session = Depends(get_db)) -> list[Song]:
-    return songs_db.query_song(db, name_filter)
+def query_song(
+    name_filter: str = "", repository: ISongRepository = Depends(SongRepository)
+) -> list[Song]:
+    return repository.query(name_filter)

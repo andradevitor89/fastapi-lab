@@ -1,3 +1,4 @@
+from contextlib import contextmanager
 from sqlalchemy import create_engine
 from sqlalchemy.engine import URL
 from sqlalchemy.orm import sessionmaker
@@ -8,13 +9,14 @@ url = URL.create(
     password="password",
     host="localhost",
     port=5432,
-    database="postgres"
+    database="postgres",
 )
 
 engine = create_engine(url)
 connection = engine.connect()
 
 
+@contextmanager
 def get_db():
     db = sessionmaker(bind=engine)()
     try:

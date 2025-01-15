@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "fastapi-lab"
+name = "lab"
 version = "0.1.0"
 description = ""
 authors = ["Vítor Alves <alves.vitor@bcg.com>"]
 readme = "README.md"
-package-mode = false
+
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -14,11 +14,15 @@ fastapi = "^0.115.6"
 psycopg2 = "^2.9.10"
 black = "^24.10.0"
 pytest-cov = "^6.0.0"
+click = "^8.1.8"
 
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.4"
 pytest-cov = "^6.0.0"
+
+[tool.poetry.scripts]
+lab = "lab.__main__:cli"
 
 [build-system]
 requires = ["poetry-core"]
