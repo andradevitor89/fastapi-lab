@@ -22,5 +22,4 @@ def get_db():
     try:
         yield db
     finally:
-        print("Closing db")
         db.close()

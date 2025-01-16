@@ -1,3 +1,4 @@
 [run]
 omit =
     tests
+    src/lab/__main__.py

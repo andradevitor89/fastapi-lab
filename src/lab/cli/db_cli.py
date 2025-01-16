@@ -1,4 +1,4 @@
-from lab.repository.models_repository import Base
+from lab.repository import models
 import lab.repository.db as db
 import click
 
@@ -11,6 +11,6 @@ def db_commands():
 @db_commands.command(name="recreate")
 def recreate_db():
     print("Dropping and creating tables")
-    Base.metadata.drop_all(db.engine)
-    Base.metadata.create_all(db.engine)
+    models.Base.metadata.drop_all(db.engine)
+    models.Base.metadata.create_all(db.engine)
     print("Tables created")

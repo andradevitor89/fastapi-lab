@@ -1,14 +1,22 @@
 from datetime import datetime
 from pydantic import BaseModel
+from lab.domain.api_models import Artist
 
 
-class Song(BaseModel):
-    id: int = None
+class SongBase(BaseModel):
     title: str
-    artist_id: int
     album: str
     year: int
-    created_at: datetime = None
+
+
+class Song(SongBase):
+    id: int
+    created_at: datetime
+    artist: Artist
+
+
+class CreateSong(SongBase):
+    artist_id: int
 
     class Config:
         json_schema_extra = {
@@ -19,13 +27,3 @@ class Song(BaseModel):
                 "year": 2022,
             }
         }
-
-
-class Artist(BaseModel):
-    id: int = None
-    name: str
-    created_at: datetime = None
-    country: str
-
-    class Config:
-        json_schema_extra = {"example": {"name": "Arctic Monkeys", "country": "UK"}}
