@@ -3,7 +3,7 @@ from fastapi import Depends
 from lab.domain import api_models
 from lab.repository.models import SongEntity
 from lab.domain.models import Song
-from lab.repository import SongRepository, ISongRepository
+from lab.repository import SongRepository, ISongRepository, ExternalApi, IExternalApi
 
 
 class ICreateSongUseCase(ABC):
@@ -13,8 +13,14 @@ class ICreateSongUseCase(ABC):
 
 
 class CreateSongUseCase(ICreateSongUseCase):
-    def __init__(self, repository: ISongRepository = Depends(SongRepository)):
+
+    def __init__(
+        self,
+        repository: ISongRepository = Depends(SongRepository),
+        external_api: IExternalApi = Depends(ExternalApi),
+    ):
         self.repository = repository
+        self.external_api = external_api
 
     def execute(self, create_song: api_models.CreateSong) -> Song:
         entity = SongEntity(
@@ -23,6 +29,7 @@ class CreateSongUseCase(ICreateSongUseCase):
             album=create_song.album,
             year=create_song.year,
         )
+        self.external_api.integrate(entity)
         entity = self.repository.create(entity)
         song = Song.model_validate(entity)
         return song

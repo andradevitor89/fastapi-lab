@@ -13,6 +13,10 @@ class ISongRepository(ABC):
     def query(self, name_filter: str = "") -> list[models.SongEntity]:
         """Query song records by name filter."""
 
+    @abstractmethod
+    def query_by_artist_id(self, artist_id: int) -> list[models.SongEntity]:
+        """Query song records by artist id."""
+
 
 class SongRepository(ISongRepository):
 
@@ -32,5 +36,14 @@ class SongRepository(ISongRepository):
                 db.query(models.SongEntity)
                 .options(joinedload(models.SongEntity.artist))
                 .filter(models.SongEntity.title.ilike(f"%{name_filter}%"))
+                .all()
+            )
+
+    def query_by_artist_id(self, artist_id: int) -> list[models.SongEntity]:
+        """Query song records by artist id."""
+        with get_db() as db:
+            return (
+                db.query(models.SongEntity)
+                .filter(models.SongEntity.artist_id == artist_id)
                 .all()
             )
